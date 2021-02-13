@@ -11,13 +11,15 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-            bat 'mvn -B -U -e -V C:/Users/DELL/.jenkins/workspace/demoprojectpipeline/muleapp1/pom.xml clean -DskipTests package'   
+            cd muleapp1
+            bat 'mvn -B -U -e -V clean -DskipTests package'   
       }
     }
 
     stage('Test') {
       steps {
-          bat "mvn C:/Users/DELL/.jenkins/workspace/demoprojectpipeline/muleapp1/pom.xml test"
+          cd muleapp1
+          bat "mvn test"
       }
     }
 
@@ -27,7 +29,8 @@ pipeline {
         APP_NAME = 'muleapp1-pank'
       }
       steps {
-            bat 'mvn -U -V -e -B C:/Users/DELL/.jenkins/workspace/demoprojectpipeline/muleapp1/pom.xml -DskipTests deploy -DmuleDeploy -Dmule.version="%MULE_VERSION%" -Danypoint.username="%DEPLOY_CREDS_USR%" -Danypoint.password="%DEPLOY_CREDS_PSW%" -Dcloudhub.app="%APP_NAME%" -Dcloudhub.environment="%ENVIRONMENT%" -Dcloudhub.bg="%BG%" -Dcloudhub.worker="%WORKER%"'
+            cd muleapp1
+            bat 'mvn -U -V -e -B -DskipTests deploy -DmuleDeploy -Dmule.version="%MULE_VERSION%" -Danypoint.username="%DEPLOY_CREDS_USR%" -Danypoint.password="%DEPLOY_CREDS_PSW%" -Dcloudhub.app="%APP_NAME%" -Dcloudhub.environment="%ENVIRONMENT%" -Dcloudhub.bg="%BG%" -Dcloudhub.worker="%WORKER%"'
       }
     }
    
